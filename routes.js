@@ -28,4 +28,32 @@ router.post("/item", (req, res) => {
     });
 });
 
+router.get("/items", (req, res) => {
+  getItems()
+    .then((items) => {
+      items = items.map((item) => ({
+        id: item._id,
+        name: item.name,
+        quantity: item.quantity,
+      }));
+      res.json(items);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    });
+});
+
+router.put("/item/:id/quantity/:quantity", (req, res) => {
+  const { id, quantity } = req.params;
+  updateQuantity(id, parseInt(quantity))
+    .then(() => {
+      res.status(200).end();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    });
+});
+
 module.exports = router;

@@ -18,4 +18,17 @@ const insertItem = (item) => {
   return collection.insertOne(item);
 };
 
-module.exports = { init, insertItem };
+const getItems = () => {
+  const collection = db.collection("items");
+  return collection.find({}).toArray();
+};
+
+const updateQuantity = (id, quantity) => {
+  const collection = db.collection("items");
+  return collection.updateOne(
+    { _id: ObjectId(id) },
+    { $inc: { quantity: quantity } }
+  );
+};
+
+module.exports = { init, insertItem, getItems, updateQuantity };
